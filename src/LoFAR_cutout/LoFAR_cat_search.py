@@ -15,7 +15,10 @@ class LoFAR_Cat_Search:
         except ValueError as e:
                 raise Exception('Bad Request, loaction is outside of survey field.') from None
         self.total_data = json_data['data']
-        self.data= self.total_data[0]
+        if len(json_data) == 1:
+            self.data = self.total_data
+        else:
+            self.data= self.total_data[0]
         self.Name = self.data[0]
         self.Ra = self.data[1]
         self.Dec = self.data[3]

@@ -3,8 +3,9 @@ import astropy.units as u
 from astropy.io import fits
 from astropy.wcs import WCS
 from astropy.coordinates import SkyCoord
-from LoFAR_cat_search import LoFAR_Cat_Search
+from .LoFAR_cat_search import LoFAR_Cat_Search
 import math
+import numpy as np
 
 def truncate(number, digits):
     # Improve accuracy with floating point operations, to avoid truncate(16.4, 2) = 16.39 or truncate(-1.13, 2) = -1.12
@@ -30,7 +31,8 @@ class cutout_2d:
     def load_pointing(self):
         url_base = 'https://lofar-surveys.org/public/DR2/mosaics/'+str(self.mosaic_id)+'/mosaic-blanked.fits'
         pointingfile = fits.open(url_base)
-        self.mosaic_data = pointingfile[0].data
+        self.mosaic_data = np.copy(pointingfile[0].data)
+        pointingfile.close()
         self.wcs = WCS(pointingfile[0].header)
 
     def find_pointing(self):
@@ -44,3 +46,4 @@ class cutout_2d:
 
     def preform_cutout(self):
         self.cutout = Cutout2D(data=self.mosaic_data,position=SkyCoord(ra=self.RA*u.deg,dec=self.DEC*u.deg,frame='icrs'),wcs=self.wcs,size=self.size)
+        
