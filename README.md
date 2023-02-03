@@ -49,7 +49,7 @@ import LCSpy
 import matplotlib.pylab as plt
 
 Image = LCSpy.cutout2d(ra=229.0586,dec=45.5901)
-plt.imshow()
+plt.imshow(Image)
 plt.show()
 ```
 <img src="assets/images/radio-source.png">
