@@ -9,7 +9,7 @@ authors = [
   { name="Rhys Shaw", email="rhysc3p0@gmail.com" },
 ]
 maintainers = [
-{name="Rhys Shaw", email="rhysc3p0@gmail.com"}
+{name="Rhys Shaw", email="rhysc3p0@gmail.com"},
 ]
 keywords = ["Radio Astronomy","Astropy","Astronomy","LoFAR","Archive","Survey"]
 description = "A package to make calling cutouts and catalogues from the LoFAR survey easier."
@@ -25,7 +25,7 @@ dependencies = [
     "json",
     "requests",
     "math",
-    "numpy"
+    "numpy",
 ]
 
 [project.urls]
