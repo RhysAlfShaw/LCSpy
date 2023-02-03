@@ -20,12 +20,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = [
-    "astropy>=5.2",
-    "requests">=2.28,
-    "numpy">=1.21,
-]
-
 [project.urls]
 "Homepage" = "https://github.com/RhysAlfShaw/LCSpy"
 "Bug Tracker" = "https://github.com/RhysAlfShaw/LCSpy/issues"
