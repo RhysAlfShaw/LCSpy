@@ -22,9 +22,9 @@ classifiers = [
 ]
 dependencies = [
     "astropy>=5.2",
-    "json"
-    "requests"
-    "math"
+    "json",
+    "requests",
+    "math",
     "numpy"
 ]
 
