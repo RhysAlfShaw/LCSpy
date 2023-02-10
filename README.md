@@ -1,10 +1,14 @@
 # LoFAR Survey Archive - Python Package
 
-Small package that will generate a source cutout from the LoFAR Survey Archive given a valid position. It can also interface with the LoFAR source catalogue to return catalogue information from a specfic position and search radius.
+This small package makes it easier to interface with LoFAR LoTSS archives. 
 
-## Table of contents
+# Table of Contents
+1. [Installation](#installation)
+2. [Searching the Source Catalogue](#searching-the-source-catalogue)
+3. [Generate Image Cutouts](#generate-image-cutouts)
+4. [Downloading Mosaic Data](#downloading-mosaic-data)
 
-## Installation
+# Installation
 This package can be installed using pip.
 ```bash
 pip install LCSpy
@@ -18,7 +22,7 @@ pip install LCSpy
 ### Dev-dependencies (optional)
 * unittest
 
-## Searching the Source Catalogue.
+# Searching the Source Catalogue.
 
 ```python
 import LCSpy
@@ -42,14 +46,25 @@ Name: ILTJ151614.06+453524.4 \
 Ra: 229.058578709231 \
 Dec: 45.5901286238848 \
 Mosaic_id: P229+45
-## Generate Source Image Cutouts.
+# Generate Image Cutouts.
 
 ```python
 import LCSpy
 import matplotlib.pylab as plt
 
-Image = LCSpy.cutout2d(ra=229.0586,dec=45.5901)
-plt.imshow(Image)
+Image = LCSpy.cutout2d(ra=229.0586,dec=45.5901,size=0.05)
+plt.imshow(Image.hdul[0].data)
 plt.show()
 ```
 <img src="assets/images/radio-source.png">
+
+
+
+# Downloading Mosaic Data
+
+```python
+import LCSpy
+
+LCSpy.download_mosiac(save_dir='/USER/PARENT_DIRECTORY',mosaic_id='P200+55')
+```
+This will download the full mosiac.fits file to your choosen directory.

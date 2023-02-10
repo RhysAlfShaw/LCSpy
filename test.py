@@ -4,7 +4,7 @@ import unittest
 class TestArithmetic(unittest.TestCase):
 
     def test_cutout_cat(self):
-        LCSpy.cutout_2d(190,55) 
+        LCSpy.cutout_2d(190,55,size=0.05) 
 
 if __name__ == '__main__':
     unittest.main()

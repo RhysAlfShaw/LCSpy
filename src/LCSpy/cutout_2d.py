@@ -1,11 +1,8 @@
-from astropy.nddata import Cutout2D
-import astropy.units as u
-from astropy.io import fits
-from astropy.wcs import WCS
-from astropy.coordinates import SkyCoord
-from .LoFAR_cat_search import LoFAR_Cat_Search
+import requests
 import math
 import numpy as np
+import json
+from astropy.io import fits 
 
 def truncate(number, digits):
     # Improve accuracy with floating point operations, to avoid truncate(16.4, 2) = 16.39 or truncate(-1.13, 2) = -1.12
@@ -20,30 +17,29 @@ def format_num(num):
 
 class cutout_2d:
 
-    def __init__(self,RA,DEC,cutout_size=(28,28)):
+    def __init__(self,RA,DEC,size):
         self.RA = RA
         self.DEC = DEC
-        self.size = cutout_size
-        self.find_pointing()
-        self.load_pointing()
-        self.preform_cutout()
+        self.size = size
+        self._get_json()
+        self.__open_fits()
 
-    def load_pointing(self):
-        url_base = 'https://lofar-surveys.org/public/DR2/mosaics/'+str(self.mosaic_id)+'/mosaic-blanked.fits'
-        pointingfile = fits.open(url_base)
-        self.mosaic_data = np.copy(pointingfile[0].data)
-        pointingfile.close()
-        self.wcs = WCS(pointingfile[0].header)
+    def _get_json(self):
 
-    def find_pointing(self):
-        Source_Coord = SkyCoord(ra=self.RA*u.deg,dec=self.DEC*u.deg,frame='icrs')
-        RA = Source_Coord.ra.to(u.hourangle).hms
-        DEC = Source_Coord.dec.dms        
-        RAhms = {'h':format_num(RA.h),'m':format_num(RA.m),'s':truncate(RA.s,1)}
-        DEChms = {'h':format_num(DEC.d),'m':format_num(DEC.m),'s':format_num((DEC.s))}
-        cat_search = LoFAR_Cat_Search(RAhms,DEChms,sr=1)
-        self.mosaic_id = cat_search.Mosaic_id
+        responce = requests.get(self._get_url()).text
+        json_responce = json.loads(responce)
+        self.image_link = json_responce['data'][3][0]
 
-    def preform_cutout(self):
-        self.cutout = Cutout2D(data=self.mosaic_data,position=SkyCoord(ra=self.RA*u.deg,dec=self.DEC*u.deg,frame='icrs'),wcs=self.wcs,size=self.size)
+    def __open_fits(self):
+        self.hdul = fits.open(self.image_link)
+        #return self.hdul
+
+    def _get_url(self):
+        url_start = 'https://vo.astron.nl/hetdex/lotss-dr1-img/cutout/form?__nevow_form__=genForm&hPOS='
+        ra = str(self.RA)
+        dec = str(self.DEC)
+        size=str(self.size)
+        url_close = '&hINTERSECT=OVERLAPS&hFORMAT=image%2Ffits&_DBOPTIONS_ORDER=&_DBOPTIONS_DIR=ASC&MAXREC=100&_FORMAT=JSON&submit=Go'
+        return url_start+ra+'%2C%20'+dec+'&hSIZE='+size+url_close
+
         
