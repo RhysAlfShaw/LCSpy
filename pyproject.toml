@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "LCSpy"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Rhys Shaw", email="rhysc3p0@gmail.com" },
 ]
