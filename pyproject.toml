@@ -14,7 +14,7 @@ maintainers = [
 keywords = ["Radio Astronomy","Astropy","Astronomy","LoFAR","Archive","Survey"]
 description = "A package to make calling cutouts and catalogues from the LoFAR survey easier."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
